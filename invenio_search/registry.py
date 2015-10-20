@@ -152,9 +152,16 @@ units = RegistryProxy(
 mappings_proxy = RegistryProxy(
     "searchext.mappings", PkgResourcesDirDiscoveryRegistry, "mappings",
     registry_namespace=searchext
-    )
+)
 
-mappings = LazyDict(lambda: dict((os.path.basename(f), f)
-                    for f in mappings_proxy))
+
+def create_mappings_lookup():
+    out = {}
+    for f in mappings_proxy:
+        if os.path.basename(f) not in out:
+            out[os.path.basename(f)] = f
+    return out
+
+mappings = LazyDict(create_mappings_lookup)
 
 ___all__ = ('mappings_proxy', 'mappings')
