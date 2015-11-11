@@ -206,21 +206,25 @@ def search(collection, p, of, ot, so, sf, sp, rm, rg, jrec):
     response.body.update({
         'size': int(rg),
         'from': jrec-1,
-        'aggs': {
-            "collection": {"terms": {"field": "_collections"}},
-            "author": {"terms": {"field": "authors.raw"}},
-        },
+        'aggs': cfg['SEARCH_ELASTIC_AGGREGATIONS'].get(
+            collection.name.lower(), {}
+        )
     })
 
     # FIXME refactor to separate search hook
     filtered_facets = ''
     from invenio_search.walkers.elasticsearch import ElasticSearchDSL
-    if 'post_filter' in request.values:
+    if 'post_filter' in request.values and request.values['post_filter']:
         parsed_post_filter = Query(request.values.get('post_filter'))
         post_filter = parsed_post_filter.query.accept(
             ElasticSearchDSL()
         )
-        response.body['post_filter'] = post_filter
+        response.body['query'] = {
+            "filtered": {
+                'query': response.body['query'],
+                'filter': post_filter
+            }
+        }
         # extracting the facet filtering
         from invenio_search.walkers.facets import FacetsVisitor
         filtered_facets = parsed_post_filter.query.accept(
