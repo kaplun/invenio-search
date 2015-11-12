@@ -20,7 +20,6 @@
 require(
     [
         "js/search/facets_menu",
-        "js/search/facet",
         "js/search/search",
         "js/search/facets_filter",
         "js/search/form",

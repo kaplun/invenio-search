@@ -196,3 +196,10 @@ SEARCH_ELASTIC_COLLECTION_INDEX_MAPPING = {
 # SEARCH_ELASTIC_DEFAULT_INDEX -- elasticsearch default index used when
 # indexing and searching for records.
 SEARCH_ELASTIC_DEFAULT_INDEX = 'records'
+
+
+# SEARCH_ELASTIC_AGGREGATIONS -- elasticsearch aggregations used when
+# searching for records. Keys are collection names (in lowercase) and
+# values are the aggregations.
+# E.g {'poetry': {'author': {'terms':{'field': 'author.name'}}}}
+SEARCH_ELASTIC_AGGREGATIONS = {}
