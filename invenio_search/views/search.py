@@ -211,6 +211,17 @@ def search(collection, p, of, ot, so, sf, sp, rm, rg, jrec):
         )
     })
 
+    if sf in cfg['SEARCH_ELASTIC_SORT_FIELDS']:
+        so = so if so in ('asc', 'desc') else ''
+        sorting = {
+            'sort': {
+                sf: {
+                    'order': so
+                }
+            }
+        }
+        response.body.update(sorting)
+
     # FIXME refactor to separate search hook
     filtered_facets = ''
     from invenio_search.walkers.elasticsearch import ElasticSearchDSL

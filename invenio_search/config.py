@@ -203,3 +203,7 @@ SEARCH_ELASTIC_DEFAULT_INDEX = 'records'
 # values are the aggregations.
 # E.g {'poetry': {'author': {'terms':{'field': 'author.name'}}}}
 SEARCH_ELASTIC_AGGREGATIONS = {}
+
+# SEARCH_ELASTIC_SORT_FIELDS -- ElasticSearch fields available for sorting.
+# Only those fields will be allowed in the search views.
+SEARCH_ELASTIC_SORT_FIELDS = []
