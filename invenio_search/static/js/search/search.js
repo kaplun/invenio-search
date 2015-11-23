@@ -39,7 +39,11 @@ function($, defineComponent, FacetsFilter, SearchResults) {
     var partials = [];
     $.each(facetsFilter.getFilters(), function(facetName, filters) {
       var incs = $.map(filters.inc, function(v) {
-        return facetName + ':"' + v + '"';
+        var queryValue = ':"' + v + '"';
+        if (facetName == "earliest_date") {
+          queryValue = ':' + v;
+        }
+        return facetName + queryValue;
       });
       if (incs.length > 1) {
         partials.push('(' + incs.join(' OR ') + ')');

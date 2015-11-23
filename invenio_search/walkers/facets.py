@@ -106,9 +106,14 @@ class FacetsVisitor(object):
 
     @visitor(KeywordOp)
     def visit(self, node, left, right):
+        value = ''
+        if isinstance(node.right, RangeOp):
+            value = node.right.left.value + '->' + node.right.right.value
+        else:
+            value = node.right.value
         return {
             node.left.value: {
-                'inc': set([node.right.value]),
+                'inc': set([value]),
                 'exc': set()
             }
         }
