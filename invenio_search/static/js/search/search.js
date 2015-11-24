@@ -117,13 +117,10 @@ function($, defineComponent, FacetsFilter, SearchResults) {
         queryString = setQueryStringParam(queryString,
                                           this.attr.facetsFilterQueryParam,
                                           serializedFacetsFilter);
-        queryString = setQueryStringParam(queryString,
-                                          this.attr.userQueryParam,
-                                          userQuery);
-        var filtered_query = queryString.replace(/[^=&]+=(&|$)/g,"").replace(/&$/,"");
+        
         // rebuild the URL
         var path = window.location.origin + window.location.pathname +
-          filtered_query + window.location.hash;
+          queryString + window.location.hash;
 
         window.history.pushState({
           path: path,
