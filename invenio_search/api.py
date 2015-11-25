@@ -55,14 +55,15 @@ class Query(object):
             tree = tree.accept(walker)
         return tree
 
-    def search(self, user_info=None, collection=None, **kwargs):
+    def search(self, user_info=None, collection=None, enhance=True, **kwargs):
         """Search records."""
         user_info = user_info or current_user
         # Enhance query first
         query = self.query
-        for enhancer in query_enhancers():
-            query = enhancer(query, user_info=user_info,
-                             collection=collection)
+        if enhance:
+            for enhancer in query_enhancers():
+                query = enhancer(query, user_info=user_info,
+                                 collection=collection)
 
         for walker in search_walkers():
             query = query.accept(walker)
